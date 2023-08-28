@@ -6,7 +6,7 @@
 
 ---
 
-# API 목록
+# API 후보
 
 ## [영화진흥위원회 API](https://www.kobis.or.kr/kobisopenapi/homepg/main/main.do)
 

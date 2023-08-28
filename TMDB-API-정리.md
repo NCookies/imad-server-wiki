@@ -95,7 +95,7 @@ TMDB는 가능한 한 현지화(로컬라이징)를 하려고 노력하지만, �
 http://image.tmdb.org/t/p/original/noelOhwX1oaNSvU9NLKhPrHTFI3.jpg
 ```
 
-### TMDB API Configuration
+## Configuration
 
 [Configuration](https://api.themoviedb.org/3/configuration)
 

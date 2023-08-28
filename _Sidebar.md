@@ -1,29 +1,46 @@
-# [1. 브레인 스토밍](https://github.com/NCookies/imad-server/wiki/1.-%EB%B8%8C%EB%A0%88%EC%9D%B8-%EC%8A%A4%ED%86%A0%EB%B0%8D)
+- [브레인 스토밍](./브레인-스토밍)
 
-# 요구사항 분석
+- [기능 명세서](./기능-명세서)
 
-# 기능 명세서
+- [앱 레이아웃](./앱-레이아웃)
 
-# 앱 레이아웃
+- [DB 설계](./DB-설계)
 
-# 패치노트
+- [API 후보](./API-후보)
+  - [API 후보](./API-후보#api-후보)
+  - [API 후보](./API-후보#api-선정)
 
-# DB 설계
+- [이메일 및 패스워드 정규식 패턴](./이메일-및-패스워드-정규식-패턴)
 
-# API 후보
+- [TMDB API란](./TMDB-API-정리#TMDB-API란)
+- [API 키 발급받기](./TMDB-API-정리#API-키-발급받기)
+- [API 속도 제한](./TMDB-API-정리#API-속도-제한)
+- [API 사용법](./TMDB-API-정리#API-사용법)
+  - [Finiding Data](./TMDB-API-정리#Finding-data)
+  - [Languages](./TMDB-API-정리#Languages)
+  - [Images](./TMDB-API-정리#Images)
+    - [예시](./TMDB-API-정리#예시)
+  - [Configuration](./TMDB-API-정리#configuration)
+  - [Genre](./TMDB-API-정리#genre)
+    - [TV](./TMDB-API-정리#tv)
+    - [MOVIE](./TMDB-API-정리#movie)
+  - [Countries](./TMDB-API-정리#countries)
+  - [Certifications](./TMDB-API-정리#certifications)
+    - [영화 시청등급](./TMDB-API-정리#영화-시청등급)
+    - [TV 시청등급](./TMDB-API-정리#tv-시청등급)
+  - [상세정보(details)](./TMDB-API-정리#상세정보details)
+- [API 사용 예시](./TMDB-API-정리#api-사용-예시)
+  - [Movie 데이터](./TMDB-API-정리#movie-데이터)
+    - [API REQUEST 예시 <<인생은 아름다워>>](./TMDB-API-정리#api-request-예시-인생은-아름다워)
+    - [실제 수신 데이터](./TMDB-API-정리#실제-수신-데이터)
+    - [추출해서 사용할 데이터](./TMDB-API-정리#추출해서-사용할-데이터)
+  - [TV 프로그램 (드라마, 애니메이션 등) 데이터](./TMDB-API-정리#tv-프로그램-드라마-애니메이션-등-데이터)
+    - [API REQUEST 예시 <<빅뱅 이론>>](./TMDB-API-정리#api-request-예시-빅뱅-이론)
+    - [실제 수신 데이터](./TMDB-API-정리#실제-수신-데이터)
+    - [추출해서 사용할 데이터](./TMDB-API-정리#추출해서-사용할-데이터)
 
-# 인증
+- [랭킹 산출 기준](./랭킹-산출-기준)
+  - [자체 회원]
+ 
+- [회원탈퇴](./회원탈퇴)
 
-# 기타
-
-# TMDB API 정리
-
-# 랭킹 산출 기준
-
-# REST API
-
-# 회원탈퇴
-
-# iOS
-
-# 기타 구현하면 좋을 기능들
