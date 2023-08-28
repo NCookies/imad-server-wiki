@@ -1757,7 +1757,7 @@ curl --request GET \
      --header 'accept: application/json'
 ```
 
-### **실제 수신 데이터**
+### 실제 수신 데이터(MOVIE)
 
 ```json
 {
@@ -2931,7 +2931,7 @@ curl --request GET \
 ```
     
 
-### 추출해서 사용할 데이터
+### 추출해서 사용할 데이터(MOVIE)
 
 ```json
 [영화 정보]
@@ -2976,7 +2976,7 @@ curl --request GET \
      --header 'accept: application/json'
 ```
 
-### 실제 수신 데이터
+### 실제 수신 데이터(TV)
 
 ```json
 {
@@ -3951,7 +3951,7 @@ curl --request GET \
 ```
     
 
-### 추출해서 사용할 데이터
+### 추출해서 사용할 데이터(TV)
 
 ```graphql
 [TV 프로그램 정보]
