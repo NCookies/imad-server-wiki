@@ -2933,7 +2933,7 @@ curl --request GET \
 
 ### 추출해서 사용할 데이터(MOVIE)
 
-```json
+```
 [영화 정보]
 title (제목)
 original_title (원제)
