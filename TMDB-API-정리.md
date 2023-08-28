@@ -210,7 +210,7 @@ import Foundation
 
 let headers = [
   "accept": "application/json",
-  "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZWE4ZGQzY2FlYTU3MDFjNjBlYTIxYWY5N2U4YzUyZiIsInN1YiI6IjY0Nzg2OWZiMDc2Y2U4MDBhODIyMGUzMyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.9IrLgOQhOGZx-Nrru5X_8aKkvEP3V3JV8a3Yz3rYyGg"
+  "Authorization": "Bearer {TMDB_API_KEY}"
 ]
 
 let request = NSMutableURLRequest(url: NSURL(string: "https://api.themoviedb.org/3/genre/movie/list?language=ko")! as URL,
@@ -1753,7 +1753,7 @@ TMDB에서 사용하는 국가명 약어와 한글이름 데이터
 ```graphql
 curl --request GET \
      --url 'https://api.themoviedb.org/3/movie/637?append_to_response=credits&language=ko-kr' \
-     --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4ODM2NWNmNmJkYzZjNDYwMTViZjg1YzczMWRmYWI4ZiIsInN1YiI6IjY0NTRlZmFhZDQ4Y2VlMDEzNmRhMWM1MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.QZC-wgg4ipi9UgxmLjrTzUtrW6C8S5u_pINevgwr97k' \
+     --header 'Authorization: Bearer {TMDB_API_KEY}' \
      --header 'accept: application/json'
 ```
 
@@ -2972,7 +2972,7 @@ profile_path (프로필 사진)
 ```graphql
 curl --request GET \
      --url 'https://api.themoviedb.org/3/tv/1418?language=ko-kr' \
-     --header 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4ODM2NWNmNmJkYzZjNDYwMTViZjg1YzczMWRmYWI4ZiIsInN1YiI6IjY0NTRlZmFhZDQ4Y2VlMDEzNmRhMWM1MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.QZC-wgg4ipi9UgxmLjrTzUtrW6C8S5u_pINevgwr97k' \
+     --header 'Authorization: Bearer {TMDB_API_KEY}' \
      --header 'accept: application/json'
 ```
 
