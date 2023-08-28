@@ -52,8 +52,7 @@ Your site generates revenue by charging users for access to content related to T
   - TMDB의 로컬라이징 정책에 대해서는 [관련 문서](https://developer.themoviedb.org/docs/languages) 참고
   - TV 프로그램 <오징어 게임> 조회 페이지
   
- ![](https://velog.velcdn.com/images/ncookie/post/b6ecb05d-446d-4604-a656-44aac4772b9e/image.png)
-
+![image](https://github.com/NCookies/imad-server/assets/16646208/1278ebed-66f3-4484-ae29-54476fd847c1)
 
   - 이 부분은 추후 DB에서 수작업으로 한글화시키거나, 구글 검색 결과를 파싱해서 별도로 업데이트 해야할 것으로 보임
   - 그 전까지는 유저에게 아직 한글화 작업 중임을 알리고, 원한다면 해당 정보를 업데이트하게 하는 것도 방법일 듯
@@ -64,7 +63,7 @@ Your site generates revenue by charging users for access to content related to T
 - IMDB는 전 세계 최대 규모의 영화 사이트로, 관련 사이트 중 가장 많은 유저와 데이터를 가지고 있음
 - 한글화에 대해서는 미흡한 경우가 많음
   - TV 프로그램 <오징어 게임> 조회 페이지
-![](https://velog.velcdn.com/images/ncookie/post/21cc5f9f-5a93-479a-8990-93852c0e0c6a/image.png)
+![image](https://github.com/NCookies/imad-server/assets/16646208/a476521a-6a1f-437a-9e5a-896dc02459d2)
 
 ---
 
@@ -88,9 +87,8 @@ TMDB 측에서 각국의 로컬라이징에 대해 많은 신경을 쓰고 있�
 
 여기서도 <오징어 게임>을 예시로 들어 설명해보자면, 유명한 배우인 `이정재`는 `Lee Jung-jae / Seong Gi-hun / 'No. 456'`로 작성되어 있다. 이를 만약 구글에 검색해본다면 다음과 같은 화면을 볼 수 있다.
 
-![](https://velog.velcdn.com/images/ncookie/post/93bd0842-8ab5-4f92-84ba-7614b0252442/image.png)
-
-![](https://velog.velcdn.com/images/ncookie/post/441efa1f-3a20-466a-9522-e9251f74d519/image.png)
+![image](https://github.com/NCookies/imad-server/assets/16646208/8ae6c447-6788-444f-aae6-c6e4119d9532)
+![image](https://github.com/NCookies/imad-server/assets/16646208/769ac827-e9bd-41dc-bc04-305bab8ba83d)
 
 아마 위키 내용을 긁어와서 저렇게 보여주는 것 같은데, IMAD 프로젝트에서는 저 정보를 이용하려고 한다. 구글에 영어로 되어있는 배우명/배역명을 검색하고, 저렇게 한글로 변환된 내용을 파싱할 예정이다. 만약 해당하는 정보가 검색되지 않는다면 영어-한글 표기 변환기나 관련 API를 사용할 것이다. 
 
