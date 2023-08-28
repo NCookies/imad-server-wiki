@@ -81,7 +81,7 @@ TMDB 내부에 저장되어 있는 작품 또는 인물 등의 ID 값을 알고 
 
 TMDB는 가능한 한 현지화(로컬라이징)를 하려고 노력하지만, 배우와 배역(캐릭터) 이름은 여기에서 제외된다. 추후 지원 예정이라고는 하지만 당장은 기대하기 어렵기 때문에 애플리케이션에서 별도의 조치를 취해야 할 것으로 보인다. 이를 위해 DB에 is_translated 칼럼을 추가할 예정이다.
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3cda5212-a6d0-4198-a95f-e198c70f0847/Untitled.png)
+![image](https://github.com/NCookies/imad-server/assets/16646208/22b2a2ba-415d-4e80-a71e-dbc4bdc366e8)
 
 ## Images
 
