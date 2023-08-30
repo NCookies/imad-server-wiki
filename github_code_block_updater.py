@@ -58,7 +58,6 @@ def main():
         for index, old_code in enumerate(code_blocks):
             new_code = get_file_content(file_paths[index])
             new_markdown_content += f"### {file_names[index]}\n\n>/{file_paths[index]}\n```java\n{new_code}```\n\n"
-    #         new_markdown_content = markdown_content.replace(old_code, new_code)
 
     with open(markdown_file_path, "w", encoding="utf-8") as markdown_file:
         markdown_file.write(new_markdown_content)
