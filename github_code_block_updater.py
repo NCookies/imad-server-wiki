@@ -19,7 +19,6 @@ def get_file_content(file_path):
     headers = {'Authorization': f'token {auth["access_token"]}'}
     url = f'https://api.github.com/repos/{auth["repo_owner"]}/{auth["repo_name"]}/contents/{file_path}?ref={auth["branch"]}'
 
-    print(headers)
     print(url)
     
     response = requests.get(url, headers=headers)
@@ -37,7 +36,7 @@ def get_file_content(file_path):
 
 
 def main():
-    new_markdown_content = None
+    new_markdown_content = ""
 
     # 마크다운 파일 열기
     with open(markdown_file_path, "r", encoding="utf-8") as markdown_file:
@@ -46,7 +45,8 @@ def main():
         markdown_content = markdown_file.read()
 
         # 파일 경로와 코드 블럭을 정규표현식 사용하여 파싱
-        file_paths = re.findall(r'> (.+)', markdown_content)
+        file_names = re.findall(r'### (.+)', markdown_content)
+        file_paths = re.findall(r'>/(.+)', markdown_content)
         code_blocks = re.findall(r'```java\n(.+?)```', markdown_content, re.DOTALL)
 
         # 파싱한 파일경로와 코드블럭의 갯수가 맞지 않으면 에러 발생
@@ -57,7 +57,8 @@ def main():
         # 코드 블록을 대체할 코드로 변경
         for index, old_code in enumerate(code_blocks):
             new_code = get_file_content(file_paths[index])
-            new_markdown_content = markdown_content.replace(old_code, new_code)
+            new_markdown_content += f"### {file_names[index]}\n\n>/{file_paths[index]}\n```java\n{new_code}```\n\n"
+    #         new_markdown_content = markdown_content.replace(old_code, new_code)
 
     with open(markdown_file_path, "w", encoding="utf-8") as markdown_file:
         markdown_file.write(new_markdown_content)
