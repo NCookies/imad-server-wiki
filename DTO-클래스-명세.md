@@ -61,11 +61,12 @@ package com.ncookie.imad.domain.contents.entity;
 
 import lombok.Getter;
 
+// 작품 상세 페이지에서 보여주는 작품 종류의 ENUM 클래스
 @Getter
 public enum ContentsType {
     MOVIE("MOVIE"),
     TV("TV"),
-    ANIMATION("ANIMATION");
+    ANIMATION("ANIMATION");         // 장르에 "애니메이션"이 포함되어 있으면 TV, MOVIE가 아닌 ANIMATION으로 분류함
 
     private final String contentsType;
 
@@ -94,7 +95,7 @@ import lombok.NoArgsConstructor;
 public class SignUpRequest {
     private String email;
     private String password;
-    private AuthProvider authProvider;
+    private AuthProvider authProvider;      // 소셜 회원은 별도의 함수를 사용하기 때문에 "IMAD"만 들어옴
 }
 ```
 
@@ -152,8 +153,9 @@ import lombok.Getter;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @Getter
+// 이메일 및 닉네임 중복검사 요청에서 사용되는 DTO 클래스
 public class UserInfoDuplicationRequest {
-    private String info;
+    private String info;    // 이메일 또는 닉네임이 중복되는지 확인하기 위해 사용되는 변수
 }
 ```
 
@@ -177,10 +179,18 @@ import lombok.Getter;
 public class UserInfoResponse {
     private String email;
     private String nickname;
+    
+    // 로그인 주체. 서비스 자체 회원 또는 소설 회원 등이 있음
     private AuthProvider authProvider;
+
     private Gender gender;
+    
+    // 연령대
     private int ageRange;
+
     private int profileImage;
+
+    // 유저의 추가정보 입력여부를 구분하기 위한 플래그 변수
     private Role role;
 }
 ```
@@ -200,13 +210,13 @@ import lombok.Getter;
 @Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class UserInfoDuplicationResponse {
-    private boolean validation;
+    private boolean validation;     // 중복 검사 결과 플래그. 중복이 아니라면 true, 중복 데이터라면 false 값을 가진다.
 }
 ```
 
-### SearchResponse
+### ContentsSearchResponse
 
->/src/main/java/com/ncookie/imad/domain/contents/dto/SearchResponse.java
+>/src/main/java/com/ncookie/imad/domain/contents/dto/ContentsSearchResponse.java
 ```java
 package com.ncookie.imad.domain.contents.dto;
 
@@ -221,19 +231,19 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class SearchResponse {
-    private int page;
-    private int totalPages;
-    private int totalResults;
+public class ContentsSearchResponse {
+    private int page;           // 해당 검색결과의 페이지
+    private int totalPages;     // 검색 결과 총 페이지 수
+    private int totalResults;   // 검색 결과 데이터 총 개수
 
     @JsonProperty("results")
-    private List<SearchResult> results;
+    private List<ContentsSearchDetails> results;     // 검색결과 상세 데이터
 }
 ```
 
-### SearchResults
+### ContentsSearchDetails
 
->/src/main/java/com/ncookie/imad/domain/contents/dto/SearchResult.java
+>/src/main/java/com/ncookie/imad/domain/contents/dto/ContentsSearchDetails.java
 ```java
 package com.ncookie.imad.domain.contents.dto;
 
@@ -249,29 +259,29 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class SearchResult {
-    private int id;
+public class ContentsSearchDetails {
+    private int id;     // TMDB에서 사용하는 id
 
     // For Movie
-    private String title;
-    private String original_title;
-    private LocalDate releaseDate;
+    private String title;               // 번역된 제목
+    private String original_title;      // 원본 제목
+    private LocalDate releaseDate;      // 개봉일
 
     // For TV shows
-    private String name;
-    private String original_name;
-    private LocalDate firstAirDate;
+    private String name;                // 번역된 제목
+    private String original_name;       // 원본 제목
+    private LocalDate firstAirDate;     // 첫 방영일
 
-    private List<String> origin_country;
-    private String original_language;
+    private List<String> origin_country;    // 원본 국가
+    private String original_language;       // 원본 언어
 
-    private boolean adult;
-    private String backdrop_path;
-    private String overview;
-    private String poster_path;
-    private String media_type;
-    private List<Integer> genreIds;
-    private boolean video;
+    private boolean adult;                  // 성인여부. 일반적인 19세 등급을 받은 작품이 아니라, 포르노와 같은 성인용 작품이 여기에 해당됨
+    private String backdrop_path;           // 배경 포스터
+    private String overview;                // 작품 상세설명
+    private String poster_path;             // 포스터
+    private String media_type;              // 쓰이는 것을 본 적이 없어서 잘 모르겠음
+    private List<Integer> genreIds;         // 장르 리스트
+    private boolean video;                  // 프리뷰 영상
 }
 ```
 
@@ -300,20 +310,21 @@ import java.util.Set;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true, allowSetters = true)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+// 작품 상세 정보를 클라이언트에게 전달해주기 위한 DTO 클래스
 public class TmdbDetails {
-    private long contentsId;
-    private long tmdbId;
+    private long contentsId;                        // IMAD 자체적으로 사용하는 id
+    private long tmdbId;                            // TMDB 내부적으로 사용하는 id
 
-    private String overview;
-    private String tagline;
-    private String posterPath;
-    private String originalLanguage;
-    private String certification;
+    private String overview;                        // 작품 개요
+    private String tagline;                         // 작품의 핵심이 되는 포인트나 제목에 대한 부연설명
+    private String posterPath;                      // 포스터
+    private String originalLanguage;                // 원어
+    private String certification;                   // 영상물 등급
 
-    private String status;
+    private String status;                          // 제작 중, 개봉함, 방영함 등의 값을 가짐
 
-    private Set<Integer> genres;
-    private Set<String> productionCountries;
+    private Set<Integer> genres;                    // 장르 리스트
+    private Set<String> productionCountries;        // 제작 국가
 
 
     // IMAD Data
@@ -324,27 +335,27 @@ public class TmdbDetails {
     private String title;
     private String originalTitle;
 
-    private String releaseDate;
-    private int runtime;
+    private String releaseDate;                      // 개봉일
+    private int runtime;                             // 상영시간
 
 
     // TV Data
     private String name;
     private String originalName;
 
-    private String firstAirDate;
-    private String lastAirDate;
+    private String firstAirDate;                      // 첫화 방영일
+    private String lastAirDate;                       // 마지막화 방영일
 
-    private int numberOfEpisodes;
-    private int numberOfSeasons;
+    private int numberOfEpisodes;                     // 에피소드 개수
+    private int numberOfSeasons;                      // 시즌 개수
 
-    private List<DetailsSeason> seasons;
-    private List<DetailsNetworks> networks;
+    private List<DetailsSeason> seasons;              // 시즌 정보
+    private List<DetailsNetworks> networks;           // 작품 방영한 방송사 정보
 
 
     // Credits
     @JsonProperty("credits")
-    private DetailsCredits credits;
+    private DetailsCredits credits;                    // 출연진(배우, 감독, 작가, 스태프 등 포함) 정보
 
 
     @JsonCreator
@@ -388,6 +399,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+// TV 작품의 시즌 정보를 가지고 있는 DTO 클래스
 public class DetailsSeason {
     private long id;
 
@@ -440,6 +452,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+// TV 작품을 방영한 방송사의 정보를 가지고 있는 DTO 클래스
 public class DetailsNetworks {
     private long id;
     private String logoPath;
@@ -484,6 +497,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+// 배우, 감독, 작가, 스태프 등의 정보를 가지고 있는 DTO 클래스
 public class DetailsPerson {
     // person id. 인물 자체에 대한 id
     private long id;
