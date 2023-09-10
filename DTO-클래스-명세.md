@@ -329,6 +329,8 @@ public class TmdbDetails {
 
     // IMAD Data
     private ContentsType contentsType;
+    private int reviewCnt;                          // 리뷰 개수
+    private float imadScore;                        // IMAD 평점 평균
 
 
     // Movie Data
@@ -548,10 +550,6 @@ public class DetailsPerson {
 }
 ```
 
----
-
-## 리뷰
-
 ### AddReviewRequest
 
 >/src/main/java/com/ncookie/imad/domain/review/dto/AddReviewRequest.java
@@ -646,8 +644,15 @@ public class ReviewDetailsResponse {
     private Long reviewId;                  // 리뷰 ID
     private Long contentsId;                // 작품 ID
     
-    // TODO: 클라이언트와 논의하여 필요한 작품 추가 정보 등에 대해 정해야함 (제목, 포스터, 개봉연도 등)
+    // 작품 정보
+    private String contentsTitle;           // 작품 제목
+    private String contentsPosterPath;      // 작품 포스터 이미지 경로
+    
+    // 유저 정보
+    private String userNickname;            // 유저 닉네임
+    private int userProfileImage;           // 유저 프로필 이미지
 
+    // 리뷰 정보
     private String title;                   // 제목
     private String content;                 // 본문
 
