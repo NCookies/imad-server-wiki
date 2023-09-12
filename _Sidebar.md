@@ -4,7 +4,7 @@
 - [DB 설계](./DB-설계)
 - [API 후보](./API-후보)
   - [API 후보](./API-후보#api-후보)
-  - [API 후보](./API-후보#api-선정)
+  - [API 선정](./API-후보#api-선정)
 - [이메일 및 패스워드 정규식 패턴](./이메일-및-패스워드-정규식-패턴)
 - [TMDB API란](./TMDB-API-정리#TMDB-API란)
   - [API 키 발급받기](./TMDB-API-정리#API-키-발급받기)
