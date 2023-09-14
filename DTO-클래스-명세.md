@@ -330,7 +330,7 @@ public class TmdbDetails {
     // IMAD Data
     private ContentsType contentsType;
     private int reviewCnt;                          // 리뷰 개수
-    private float imadScore;                        // IMAD 평점 평균
+    private Float imadScore;                        // IMAD 평점 평균
 
 
     // Movie Data
@@ -552,11 +552,10 @@ public class DetailsPerson {
 
 ### AddReviewRequest
 
->/src/main/java/com/ncookie/imad/domain/review/dto/AddReviewRequest.java
+>/src/main/java/com/ncookie/imad/domain/review/dto/request/AddReviewRequest.java
 ```java
-package com.ncookie.imad.domain.review.dto;
+package com.ncookie.imad.domain.review.dto.request;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Data;
@@ -576,9 +575,9 @@ public class AddReviewRequest {
 
 ### AddReviewResponse
 
->/src/main/java/com/ncookie/imad/domain/review/dto/AddReviewResponse.java
+>/src/main/java/com/ncookie/imad/domain/review/dto/response/AddReviewResponse.java
 ```java
-package com.ncookie.imad.domain.review.dto;
+package com.ncookie.imad.domain.review.dto.response;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -600,9 +599,9 @@ public class AddReviewResponse {
 
 ### ModifyReviewRequest
 
->/src/main/java/com/ncookie/imad/domain/review/dto/ModifyReviewRequest.java
+>/src/main/java/com/ncookie/imad/domain/review/dto/request/ModifyReviewRequest.java
 ```java
-package com.ncookie.imad.domain.review.dto;
+package com.ncookie.imad.domain.review.dto.request;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -622,12 +621,13 @@ public class ModifyReviewRequest {
 
 ### ReviewDetailsResponse
 
->/src/main/java/com/ncookie/imad/domain/review/dto/ReviewDetailsResponse.java
+>/src/main/java/com/ncookie/imad/domain/review/dto/response/ReviewDetailsResponse.java
 ```java
-package com.ncookie.imad.domain.review.dto;
+package com.ncookie.imad.domain.review.dto.response;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.ncookie.imad.domain.review.entity.Review;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -649,8 +649,9 @@ public class ReviewDetailsResponse {
     private String contentsPosterPath;      // 작품 포스터 이미지 경로
     
     // 유저 정보
-    private String userNickname;            // 유저 닉네임
-    private int userProfileImage;           // 유저 프로필 이미지
+    private Long userId;                    // 유저 id
+    private String userNickname;            // 닉네임
+    private int userProfileImage;           // 프로필 이미지
 
     // 리뷰 정보
     private String title;                   // 제목
@@ -666,14 +667,109 @@ public class ReviewDetailsResponse {
     private LocalDateTime modifiedAt;       // 리뷰 수정 날짜
 
     private int likeStatus;                 // 1이면 좋아요, -1이면 싫어요, 0이면 아무 상태도 아님
+
+    public static ReviewDetailsResponse toDTO(Review review) {
+        return ReviewDetailsResponse.builder()
+                .reviewId(review.getReviewId())
+                .contentsId(review.getContents().getContentsId())
+
+                .contentsTitle(review.getContents().getTranslatedTitle())
+                .contentsPosterPath(review.getContents().getPosterPath())
+
+                .userNickname(review.getUserAccount().getNickname())
+                .userProfileImage(review.getUserAccount().getProfileImage())
+
+                .title(review.getTitle())
+                .content(review.getContent())
+
+                .score(review.getScore())
+                .isSpoiler(review.isSpoiler())
+
+                .likeCnt(review.getLikeCnt())
+                .dislikeCnt(review.getDislikeCnt())
+
+                .createdAt(review.getCreatedDate())
+                .modifiedAt(review.getModifiedDate())
+
+                .build();
+    }
+}
+```
+
+### ReviewListResponse
+
+>/src/main/java/com/ncookie/imad/domain/review/dto/response/ReviewListResponse.java
+```java
+package com.ncookie.imad.domain.review.dto.response;
+
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.ncookie.imad.domain.review.entity.Review;
+import lombok.Builder;
+import lombok.Data;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+
+import java.util.ArrayList;
+import java.util.List;
+
+
+@Data
+@Builder
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+public class ReviewListResponse {
+    // 여기서 보내는 ReviewDetailsResponse에는 userId와 likeStatus가 포함되어 있지 않고, 대신 null 또는 0 값이 들어간다.
+    List<ReviewDetailsResponse> reviewDetailsResponseList;      // 리뷰 정보
+
+    long totalElements;              // 총 리뷰 개수
+    long totalPages;                 // 총 페이지 수
+
+    int pageNumber;                 // 현재 페이지
+    int numberOfElements;           // 현재 페이지의 리뷰 개수
+    int sizeOfPage;                 // 한 페이지 당 최대 리뷰 개수
+
+    int sortDirection;              // 0 : 오름차순, 1 : 내림차순
+    String sortProperty;            // 정렬 기준 (score, createdDate, likeCnt, dislikeCnt 등이 있음)
+
+    public static ReviewListResponse toDTO(Page<Review> reviewPage) {
+        String sortProperty = null;
+        int sortDirection = 0;
+        Sort sort = reviewPage.getSort();
+        List<Sort.Order> orders = sort.toList();
+        for (Sort.Order order : orders) {
+            sortProperty = order.getProperty();
+            sortDirection = order.getDirection().name().equals("ASC") ? 0 : 1;
+        }
+        
+        // Review 데이터 가공
+        List<ReviewDetailsResponse> reviewList = new ArrayList<>();
+        for (Review r : reviewPage.getContent().stream().toList()) {
+            reviewList.add(ReviewDetailsResponse.toDTO(r));
+        }
+
+        return ReviewListResponse.builder()
+                .reviewDetailsResponseList(reviewList)
+
+                .totalElements(reviewPage.getTotalElements())
+                .totalPages(reviewPage.getTotalPages())
+
+                .pageNumber(reviewPage.getNumber())
+                .numberOfElements(reviewPage.getNumberOfElements())
+                .sizeOfPage(reviewPage.getSize())
+
+                .sortDirection(sortDirection)
+                .sortProperty(sortProperty)
+
+                .build();
+    }
 }
 ```
 
 ### ReviewLikeStatusRequest
 
->/src/main/java/com/ncookie/imad/domain/review/dto/ReviewLikeStatusRequest.java
+>/src/main/java/com/ncookie/imad/domain/review/dto/request/ReviewLikeStatusRequest.java
 ```java
-package com.ncookie.imad.domain.review.dto;
+package com.ncookie.imad.domain.review.dto.request;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;

@@ -63,4 +63,5 @@
     - [AddReviewResponse](./DTO-클래스-명세#AddReviewResponse)
     - [ModifyReviewRequest](./DTO-클래스-명세#ModifyReviewRequest)
     - [ReviewDetailsResponse](./DTO-클래스-명세#ReviewDetailsResponse)
+    - [ReviewListResponse](./DTO-클래스-명세#ReviewListResponse)
     - [ReviewLikeStatusRequest](./DTO-클래스-명세#ReviewLikeStatusRequest)
