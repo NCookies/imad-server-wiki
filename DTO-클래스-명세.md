@@ -110,6 +110,8 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.ncookie.imad.domain.user.entity.Gender;
 import lombok.Getter;
 
+import java.util.Set;
+
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @Getter
 public class UserUpdateRequest {
@@ -117,7 +119,8 @@ public class UserUpdateRequest {
     int ageRange;
     int profileImage;
     String nickname;
-    // TODO: 장르 추가해야함
+
+    Set<Long> preferredGenres;
 }
 ```
 
@@ -170,8 +173,11 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.ncookie.imad.domain.user.entity.AuthProvider;
 import com.ncookie.imad.domain.user.entity.Gender;
 import com.ncookie.imad.domain.user.entity.Role;
+import com.ncookie.imad.domain.user.entity.UserAccount;
 import lombok.Builder;
 import lombok.Getter;
+
+import java.util.Set;
 
 @Getter
 @Builder
@@ -192,6 +198,22 @@ public class UserInfoResponse {
 
     // 유저의 추가정보 입력여부를 구분하기 위한 플래그 변수
     private Role role;
+
+    private Set<Long> preferredGenres;
+
+
+    public static UserInfoResponse toDTO(UserAccount userAccount) {
+        return UserInfoResponse.builder()
+                .email(userAccount.getEmail())
+                .nickname(userAccount.getNickname())
+                .authProvider(userAccount.getAuthProvider())
+                .gender(userAccount.getGender())
+                .ageRange(userAccount.getAgeRange())
+                .profileImage(userAccount.getProfileImage())
+                .preferredGenres(userAccount.getPreferredGenres())
+                .role(userAccount.getRole())
+                .build();
+    }
 }
 ```
 
@@ -556,6 +578,7 @@ public class DetailsPerson {
 ```java
 package com.ncookie.imad.domain.review.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Data;
@@ -569,6 +592,8 @@ public class AddReviewRequest {
     private String content;             // 리뷰 본문
     
     private float score;                 // 리뷰 점수
+
+    @JsonProperty("is_spoiler")
     private boolean isSpoiler;          // 스포일러 여부
 }
 ```
@@ -603,6 +628,7 @@ public class AddReviewResponse {
 ```java
 package com.ncookie.imad.domain.review.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Data;
@@ -615,6 +641,8 @@ public class ModifyReviewRequest {
     private String content;             // 리뷰 본문
 
     private float score;                 // 리뷰 점수
+
+    @JsonProperty("is_spoiler")
     private boolean isSpoiler;          // 스포일러 여부
 }
 ```
@@ -676,6 +704,7 @@ public class ReviewDetailsResponse {
                 .contentsTitle(review.getContents().getTranslatedTitle())
                 .contentsPosterPath(review.getContents().getPosterPath())
 
+                .userId(review.getUserAccount().getId())
                 .userNickname(review.getUserAccount().getNickname())
                 .userProfileImage(review.getUserAccount().getProfileImage())
 
@@ -710,7 +739,6 @@ import lombok.Data;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -731,7 +759,7 @@ public class ReviewListResponse {
     int sortDirection;              // 0 : 오름차순, 1 : 내림차순
     String sortProperty;            // 정렬 기준 (score, createdDate, likeCnt, dislikeCnt 등이 있음)
 
-    public static ReviewListResponse toDTO(Page<Review> reviewPage) {
+    public static ReviewListResponse toDTO(Page<Review> reviewPage, List<ReviewDetailsResponse> reviewList) {
         String sortProperty = null;
         int sortDirection = 0;
         Sort sort = reviewPage.getSort();
@@ -739,12 +767,6 @@ public class ReviewListResponse {
         for (Sort.Order order : orders) {
             sortProperty = order.getProperty();
             sortDirection = order.getDirection().name().equals("ASC") ? 0 : 1;
-        }
-        
-        // Review 데이터 가공
-        List<ReviewDetailsResponse> reviewList = new ArrayList<>();
-        for (Review r : reviewPage.getContent().stream().toList()) {
-            reviewList.add(ReviewDetailsResponse.toDTO(r));
         }
 
         return ReviewListResponse.builder()
