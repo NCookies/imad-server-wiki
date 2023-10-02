@@ -65,3 +65,6 @@
     - [ReviewDetailsResponse](./DTO-클래스-명세#ReviewDetailsResponse)
     - [ReviewListResponse](./DTO-클래스-명세#ReviewListResponse)
     - [ReviewLikeStatusRequest](./DTO-클래스-명세#ReviewLikeStatusRequest)
+  - [프로필](./DTO-클래스-명세#프로필)
+    - [BookmarksListResponse](./DTO-클래스-명세#BookmarksListResponse)
+    - [BookmarkDetails](./DTO-클래스-명세#BookmarkDetails)

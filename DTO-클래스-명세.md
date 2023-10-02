@@ -733,7 +733,6 @@ package com.ncookie.imad.domain.review.dto.response;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.ncookie.imad.domain.review.entity.Review;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.domain.Page;
@@ -759,10 +758,10 @@ public class ReviewListResponse {
     int sortDirection;              // 0 : 오름차순, 1 : 내림차순
     String sortProperty;            // 정렬 기준 (score, createdDate, likeCnt, dislikeCnt 등이 있음)
 
-    public static ReviewListResponse toDTO(Page<Review> reviewPage, List<ReviewDetailsResponse> reviewList) {
+    public static ReviewListResponse toDTO(Page<?> page, List<ReviewDetailsResponse> reviewList) {
         String sortProperty = null;
         int sortDirection = 0;
-        Sort sort = reviewPage.getSort();
+        Sort sort = page.getSort();
         List<Sort.Order> orders = sort.toList();
         for (Sort.Order order : orders) {
             sortProperty = order.getProperty();
@@ -772,12 +771,12 @@ public class ReviewListResponse {
         return ReviewListResponse.builder()
                 .reviewDetailsResponseList(reviewList)
 
-                .totalElements(reviewPage.getTotalElements())
-                .totalPages(reviewPage.getTotalPages())
+                .totalElements(page.getTotalElements())
+                .totalPages(page.getTotalPages())
 
-                .pageNumber(reviewPage.getNumber())
-                .numberOfElements(reviewPage.getNumberOfElements())
-                .sizeOfPage(reviewPage.getSize())
+                .pageNumber(page.getNumber())
+                .numberOfElements(page.getNumberOfElements())
+                .sizeOfPage(page.getSize())
 
                 .sortDirection(sortDirection)
                 .sortProperty(sortProperty)
@@ -801,6 +800,102 @@ import lombok.Data;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class ReviewLikeStatusRequest {
     int likeStatus;
+}
+```
+
+### BookmarksListResponse
+
+>/src/main/java/com/ncookie/imad/domain/profile/dto/BookmarkListResponse.java
+```java
+package com.ncookie.imad.domain.profile.dto;
+
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.ncookie.imad.domain.profile.entity.ContentsBookmark;
+import lombok.Builder;
+import lombok.Data;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+
+import java.util.List;
+
+@Data
+@Builder
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+public class BookmarkListResponse {
+    private List<BookmarkDetails> bookmarkDetailsList;
+    
+    long totalElements;              // 총 북마크 개수
+    long totalPages;                 // 총 페이지 수
+
+    int pageNumber;                 // 현재 페이지
+    int numberOfElements;           // 현재 페이지의 북마크 개수
+    int sizeOfPage;                 // 한 페이지 당 최대 북마크 개수
+
+    int sortDirection;              // 0 : 오름차순, 1 : 내림차순
+    String sortProperty;            // 정렬 기준 (createdDate)
+
+    public static BookmarkListResponse toDTO(Page<ContentsBookmark> contentsBookmarkPage, List<BookmarkDetails> bookmarkDetailsList) {
+        String sortProperty = null;
+        int sortDirection = 0;
+        Sort sort = contentsBookmarkPage.getSort();
+        List<Sort.Order> orders = sort.toList();
+        for (Sort.Order order : orders) {
+            sortProperty = order.getProperty();
+            sortDirection = order.getDirection().name().equals("ASC") ? 0 : 1;
+        }
+
+        return BookmarkListResponse.builder()
+                .bookmarkDetailsList(bookmarkDetailsList)
+
+                .totalElements(contentsBookmarkPage.getTotalElements())
+                .totalPages(contentsBookmarkPage.getTotalPages())
+
+                .pageNumber(contentsBookmarkPage.getNumber())
+                .numberOfElements(contentsBookmarkPage.getNumberOfElements())
+                .sizeOfPage(contentsBookmarkPage.getSize())
+
+                .sortDirection(sortDirection)
+                .sortProperty(sortProperty)
+
+                .build();
+    }
+}
+```
+
+### BookmarkDetails
+
+>/src/main/java/com/ncookie/imad/domain/profile/dto/BookmarkDetails.java
+```java
+package com.ncookie.imad.domain.profile.dto;
+
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.ncookie.imad.domain.profile.entity.ContentsBookmark;
+import lombok.Builder;
+import lombok.Data;
+
+import java.time.LocalDateTime;
+
+@Data
+@Builder
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+public class BookmarkDetails {
+    private Long bookmarkId;
+
+    private Long userId;
+    private Long contentsId;
+
+    private LocalDateTime createdDate;
+
+    public static BookmarkDetails toDTO(ContentsBookmark bookmark) {
+        return BookmarkDetails.builder()
+                .bookmarkId(bookmark.getId())
+                .userId(bookmark.getUserAccount().getId())
+                .contentsId(bookmark.getContents().getContentsId())
+                .createdDate(bookmark.getCreatedDate())
+                .build();
+    }
 }
 ```
 
