@@ -385,6 +385,10 @@ public class TmdbDetails {
     // Credits
     @JsonProperty("credits")
     private DetailsCredits credits;                    // 출연진(배우, 감독, 작가, 스태프 등 포함) 정보
+    
+    
+    // 북마크 여부
+    private boolean bookmarkStatus;
 
 
     @JsonCreator
@@ -889,7 +893,10 @@ public class BookmarkDetails {
     private Long bookmarkId;
 
     private Long userId;
+
     private Long contentsId;
+    private String contentsTitle;           // 작품 제목
+    private String contentsPosterPath;      // 작품 포스터 이미지 경로
 
     private LocalDateTime createdDate;
 
@@ -898,6 +905,8 @@ public class BookmarkDetails {
                 .bookmarkId(bookmark.getId())
                 .userId(bookmark.getUserAccount().getId())
                 .contentsId(bookmark.getContents().getContentsId())
+                .contentsTitle(bookmark.getContents().getTranslatedTitle())
+                .contentsPosterPath(bookmark.getContents().getPosterPath())
                 .createdDate(bookmark.getCreatedDate())
                 .build();
     }
