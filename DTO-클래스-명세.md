@@ -1,6 +1,6 @@
-### Gender
+## 회원가입 / 로그인
 
->/src/main/java/com/ncookie/imad/domain/user/entity/Gender.java
+### Gender
 ```java
 package com.ncookie.imad.domain.user.entity;
 
@@ -20,8 +20,6 @@ public enum Gender {
 ```
 
 ### AuthProvider
-
->/src/main/java/com/ncookie/imad/domain/user/entity/AuthProvider.java
 ```java
 package com.ncookie.imad.domain.user.entity;
 
@@ -54,8 +52,6 @@ public enum AuthProvider {
 ```
 
 ### ContentsType
-
->/src/main/java/com/ncookie/imad/domain/contents/entity/ContentsType.java
 ```java
 package com.ncookie.imad.domain.contents.entity;
 
@@ -77,8 +73,6 @@ public enum ContentsType {
 ```
 
 ### SignUpRequest
-
->/src/main/java/com/ncookie/imad/domain/user/dto/request/SignUpRequest.java
 ```java
 package com.ncookie.imad.domain.user.dto.request;
 
@@ -100,8 +94,6 @@ public class SignUpRequest {
 ```
 
 ### UserUpdateRequest
-
->/src/main/java/com/ncookie/imad/domain/user/dto/request/UserUpdateRequest.java
 ```java
 package com.ncookie.imad.domain.user.dto.request;
 
@@ -126,8 +118,6 @@ public class UserUpdateRequest {
 ```
 
 ### ModifyUserPasswordRequest
-
->/src/main/java/com/ncookie/imad/domain/user/dto/request/ModifyUserPasswordRequest.java
 ```java
 package com.ncookie.imad.domain.user.dto.request;
 
@@ -146,8 +136,6 @@ public class ModifyUserPasswordRequest {
 ```
 
 ### UserInfoDuplicationRequest
-
->/src/main/java/com/ncookie/imad/domain/user/dto/request/UserInfoDuplicationRequest.java
 ```java
 package com.ncookie.imad.domain.user.dto.request;
 
@@ -164,8 +152,6 @@ public class UserInfoDuplicationRequest {
 ```
 
 ### UserInfoResponse
-
->/src/main/java/com/ncookie/imad/domain/user/dto/response/UserInfoResponse.java
 ```java
 package com.ncookie.imad.domain.user.dto.response;
 
@@ -223,8 +209,6 @@ public class UserInfoResponse {
 ```
 
 ### UserInfoDuplicationResponse
-
->/src/main/java/com/ncookie/imad/domain/user/dto/response/UserInfoDuplicationResponse.java
 ```java
 package com.ncookie.imad.domain.user.dto.response;
 
@@ -241,9 +225,9 @@ public class UserInfoDuplicationResponse {
 }
 ```
 
-### ContentsSearchResponse
+## 작품
 
->/src/main/java/com/ncookie/imad/domain/contents/dto/ContentsSearchResponse.java
+### ContentsSearchResponse
 ```java
 package com.ncookie.imad.domain.contents.dto;
 
@@ -269,8 +253,6 @@ public class ContentsSearchResponse {
 ```
 
 ### ContentsSearchDetails
-
->/src/main/java/com/ncookie/imad/domain/contents/dto/ContentsSearchDetails.java
 ```java
 package com.ncookie.imad.domain.contents.dto;
 
@@ -313,8 +295,6 @@ public class ContentsSearchDetails {
 ```
 
 ### TmdbDetails
-
->/src/main/java/com/ncookie/imad/domain/tmdb/dto/TmdbDetails.java
 ```java
 package com.ncookie.imad.domain.tmdb.dto;
 
@@ -409,8 +389,6 @@ public class TmdbDetails {
 ```
 
 ### DetailsSeason
-
->/src/main/java/com/ncookie/imad/domain/season/dto/DetailsSeason.java
 ```java
 package com.ncookie.imad.domain.season.dto;
 
@@ -468,8 +446,6 @@ public class DetailsSeason {
 ```
 
 ### DetailsNetworks
-
->/src/main/java/com/ncookie/imad/domain/networks/dto/DetailsNetworks.java
 ```java
 package com.ncookie.imad.domain.networks.dto;
 
@@ -505,8 +481,6 @@ public class DetailsNetworks {
 ```
 
 ### DetailsPerson
-
->/src/main/java/com/ncookie/imad/domain/person/dto/DetailsPerson.java
 ```java
 package com.ncookie.imad.domain.person.dto;
 
@@ -582,9 +556,9 @@ public class DetailsPerson {
 }
 ```
 
-### AddReviewRequest
+## 리뷰
 
->/src/main/java/com/ncookie/imad/domain/review/dto/request/AddReviewRequest.java
+### AddReviewRequest
 ```java
 package com.ncookie.imad.domain.review.dto.request;
 
@@ -609,8 +583,6 @@ public class AddReviewRequest {
 ```
 
 ### AddReviewResponse
-
->/src/main/java/com/ncookie/imad/domain/review/dto/response/AddReviewResponse.java
 ```java
 package com.ncookie.imad.domain.review.dto.response;
 
@@ -633,8 +605,6 @@ public class AddReviewResponse {
 ```
 
 ### ModifyReviewRequest
-
->/src/main/java/com/ncookie/imad/domain/review/dto/request/ModifyReviewRequest.java
 ```java
 package com.ncookie.imad.domain.review.dto.request;
 
@@ -658,8 +628,6 @@ public class ModifyReviewRequest {
 ```
 
 ### ReviewDetailsResponse
-
->/src/main/java/com/ncookie/imad/domain/review/dto/response/ReviewDetailsResponse.java
 ```java
 package com.ncookie.imad.domain.review.dto.response;
 
@@ -680,9 +648,9 @@ import java.time.LocalDateTime;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class ReviewDetailsResponse {
     private Long reviewId;                  // 리뷰 ID
-    private Long contentsId;                // 작품 ID
-    
+
     // 작품 정보
+    private Long contentsId;                // 작품 ID
     private String contentsTitle;           // 작품 제목
     private String contentsPosterPath;      // 작품 포스터 이미지 경로
     
@@ -709,8 +677,8 @@ public class ReviewDetailsResponse {
     public static ReviewDetailsResponse toDTO(Review review) {
         return ReviewDetailsResponse.builder()
                 .reviewId(review.getReviewId())
-                .contentsId(review.getContents().getContentsId())
 
+                .contentsId(review.getContents().getContentsId())
                 .contentsTitle(review.getContents().getTranslatedTitle())
                 .contentsPosterPath(review.getContents().getPosterPath())
 
@@ -736,8 +704,6 @@ public class ReviewDetailsResponse {
 ```
 
 ### ReviewListResponse
-
->/src/main/java/com/ncookie/imad/domain/review/dto/response/ReviewListResponse.java
 ```java
 package com.ncookie.imad.domain.review.dto.response;
 
@@ -755,7 +721,6 @@ import java.util.List;
 @Builder
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class ReviewListResponse {
-    // 여기서 보내는 ReviewDetailsResponse에는 userId와 likeStatus가 포함되어 있지 않고, 대신 null 또는 0 값이 들어간다.
     List<ReviewDetailsResponse> reviewDetailsResponseList;      // 리뷰 정보
 
     long totalElements;              // 총 리뷰 개수
@@ -796,11 +761,415 @@ public class ReviewListResponse {
 }
 ```
 
-### ReviewLikeStatusRequest
+## 게시글
 
->/src/main/java/com/ncookie/imad/domain/review/dto/request/ReviewLikeStatusRequest.java
+### AddPostingRequest
 ```java
-package com.ncookie.imad.domain.review.dto.request;
+package com.ncookie.imad.domain.posting.dto.request;
+
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.Data;
+
+
+@Data
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+public class AddPostingRequest {
+    private Long contentsId;            // 작품 ID
+
+    private String title;               // 게시글 제목
+    private String content;             // 게시글  본문
+    private int category;               // 게시글 카테고리
+
+    private boolean isSpoiler;          // 스포일러 여부
+}
+```
+
+### ModifyPostingRequest 
+```java
+package com.ncookie.imad.domain.posting.dto.request;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.Data;
+
+
+@Data
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+public class ModifyPostingRequest {
+    private String title;               // 게시글 제목
+    private String content;             // 게시글 본문
+    private int category;
+
+    @JsonProperty("is_spoiler")
+    private boolean isSpoiler;          // 스포일러 여부
+}
+```
+
+### PostingDetailsResponse 
+```java
+package com.ncookie.imad.domain.posting.dto.response;
+
+
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.ncookie.imad.domain.posting.entity.Posting;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+public class PostingDetailsResponse {
+    private Long postingId;                 // 게시글 ID
+
+    // 작품 정보
+    private Long contentsId;                // 작품 ID
+    private String contentsTitle;           // 작품 제목
+    private String contentsPosterPath;      // 작품 포스터 이미지 경로
+
+    // 유저 정보
+    private Long userId;                    // 유저 id
+    private String userNickname;            // 닉네임
+    private int userProfileImage;           // 프로필 이미지
+
+    // 게시글 정보
+    private String title;                   // 제목
+    private String content;                 // 본문
+    private int category;                   // 카테고리
+
+    private boolean isSpoiler;              // 스포일러 여부
+
+    private int viewCnt;                    // 조회수
+    private int likeCnt;                    // 좋아요 수
+    private int dislikeCnt;                 // 싫어요 수
+
+    private int likeStatus;                 // 1이면 좋아요, -1이면 싫어요, 0이면 아무 상태도 아님
+
+    private LocalDateTime createdAt;        // 리뷰 작성 날짜
+    private LocalDateTime modifiedAt;       // 리뷰 수정 날짜
+
+    // 댓글 정보
+    private int commentCnt;                                                     // 댓글 개수
+    private List<CommentDetailsResponse> commentDetailsResponseList;            // 댓글 리스트
+
+
+    public static PostingDetailsResponse toDTO(Posting posting, List<CommentDetailsResponse> commentList) {
+        return PostingDetailsResponse.builder()
+                .postingId(posting.getPostingId())
+
+                .contentsId(posting.getContents().getContentsId())
+                .contentsTitle(posting.getContents().getTranslatedTitle())
+                .contentsPosterPath(posting.getContents().getPosterPath())
+
+                .userId(posting.getUser().getId())
+                .userNickname(posting.getUser().getNickname())
+                .userProfileImage(posting.getUser().getProfileImage())
+
+                .title(posting.getTitle())
+                .content(posting.getContent())
+                .category(posting.getCategory())
+
+                .isSpoiler(posting.isSpoiler())
+
+                .viewCnt(posting.getViewCnt())
+                .likeCnt(posting.getLikeCnt())
+                .dislikeCnt(posting.getDislikeCnt())
+
+                .createdAt(posting.getCreatedDate())
+                .modifiedAt(posting.getModifiedDate())
+
+                .commentCnt(commentList.size())
+                .commentDetailsResponseList(commentList)
+
+                .build();
+    }
+}
+```
+
+### PostingIdResponse 
+```java
+package com.ncookie.imad.domain.posting.dto.response;
+
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.Builder;
+import lombok.Data;
+
+
+@Data
+@Builder
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+public class PostingIdResponse {
+    Long postingId;
+}
+```
+
+### PostingListResponse
+```java
+package com.ncookie.imad.domain.posting.dto.response;
+
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.Builder;
+import lombok.Data;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+
+import java.util.List;
+
+
+@Data
+@Builder
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+public class PostingListResponse {
+    List<PostingListElement> postingDetailsResponseList;
+
+    long totalElements;              // 총 리뷰 개수
+    long totalPages;                 // 총 페이지 수
+
+    int pageNumber;                 // 현재 페이지
+    int numberOfElements;           // 현재 페이지의 리뷰 개수
+    int sizeOfPage;                 // 한 페이지 당 최대 리뷰 개수
+
+    int sortDirection;              // 0 : 오름차순, 1 : 내림차순
+    String sortProperty;            // 정렬 기준 (createdDate, likeCnt, dislikeCnt 등이 있음)
+
+    int searchType;                 // 검색 기준 (제목+내용, 제목, 내용, 글쓴이 등)
+
+    public static PostingListResponse toDTO(Page<?> page, List<PostingListElement> postingList) {
+        String sortProperty = null;
+        int sortDirection = 0;
+        Sort sort = page.getSort();
+        List<Sort.Order> orders = sort.toList();
+        for (Sort.Order order : orders) {
+            sortProperty = order.getProperty();
+            sortDirection = order.getDirection().name().equals("ASC") ? 0 : 1;
+        }
+
+        return PostingListResponse.builder()
+                .postingDetailsResponseList(postingList)
+
+                .totalElements(page.getTotalElements())
+                .totalPages(page.getTotalPages())
+
+                .pageNumber(page.getNumber())
+                .numberOfElements(page.getNumberOfElements())
+                .sizeOfPage(page.getSize())
+
+                .sortDirection(sortDirection)
+                .sortProperty(sortProperty)
+
+                .build();
+    }
+}
+```
+
+### PostingListElement
+```java
+package com.ncookie.imad.domain.posting.dto.response;
+
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.ncookie.imad.domain.posting.entity.Posting;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+
+
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+public class PostingListElement {
+    private Long postingId;                 // 게시글 ID
+
+    // 작품 정보
+    private Long contentsId;                // 작품 ID
+    private String contentsTitle;           // 작품 제목
+    private String contentsPosterPath;      // 작품 포스터 이미지 경로
+
+    // 유저 정보
+    private Long userId;                    // 유저 id
+    private String userNickname;            // 닉네임
+    private int userProfileImage;           // 프로필 이미지
+
+    // 게시글 정보
+    private String title;                   // 제목
+    private int category;                   // 카테고리
+
+    private boolean isSpoiler;              // 스포일러 여부
+
+    private int viewCnt;                    // 조회수
+    private int likeCnt;                    // 좋아요 수
+    private int dislikeCnt;                 // 싫어요 수
+
+    private int likeStatus;                 // 1이면 좋아요, -1이면 싫어요, 0이면 아무 상태도 아님
+
+    private LocalDateTime createdAt;        // 리뷰 작성 날짜
+    private LocalDateTime modifiedAt;       // 리뷰 수정 날짜
+
+
+    public static PostingListElement toDTO(Posting posting) {
+        return PostingListElement.builder()
+                .postingId(posting.getPostingId())
+
+                .contentsId(posting.getContents().getContentsId())
+                .contentsTitle(posting.getContents().getTranslatedTitle())
+                .contentsPosterPath(posting.getContents().getPosterPath())
+
+                .userId(posting.getUser().getId())
+                .userNickname(posting.getUser().getNickname())
+                .userProfileImage(posting.getUser().getProfileImage())
+
+                .title(posting.getTitle())
+                .category(posting.getCategory())
+
+                .isSpoiler(posting.isSpoiler())
+
+                .viewCnt(posting.getViewCnt())
+                .likeCnt(posting.getLikeCnt())
+                .dislikeCnt(posting.getDislikeCnt())
+
+                .createdAt(posting.getCreatedDate())
+                .modifiedAt(posting.getModifiedDate())
+
+                .build();
+    }
+}
+```
+
+## 댓글
+
+### AddCommentRequest
+```java
+package com.ncookie.imad.domain.posting.dto.request;
+
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.Data;
+
+
+@Data
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+public class AddCommentRequest {
+    private Long postingId;         // 게시글 ID
+
+    private Long parentId;          // 부모 댓글 ID. 답글이 아니라면 null 값이 들어감
+    private String content;         // 댓글 내용
+}
+```
+
+### ModifyCommentRequest 
+```java
+package com.ncookie.imad.domain.posting.dto.request;
+
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.Data;
+
+
+@Data
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+public class ModifyCommentRequest {
+    String content;         // 댓글 내용
+}
+```
+
+### CommentDetailsResponse 
+```java
+package com.ncookie.imad.domain.posting.dto.response;
+
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.ncookie.imad.domain.posting.entity.Comment;
+import com.ncookie.imad.domain.user.entity.UserAccount;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+
+
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+public class CommentDetailsResponse {
+    private Long commentId;
+
+    // 유저 정보
+    private Long userId;                    // 유저 ID
+    private String userNickname;            // 닉네임
+    private int userProfileImage;           // 프로필 이미지
+
+    // 댓글 정보
+    private Long parentId;                  // 댓글 부모 ID. 이 댓글이 최상위라면 null 값이 들어감
+    private String content;                 // 댓글 내용
+    private boolean isRemoved;              // 댓글 삭제 여부
+
+    private LocalDateTime createdAt;        // 댓글 작성 날짜
+    private LocalDateTime modifiedAt;       // 댓글 수정 날짜
+
+
+    public static CommentDetailsResponse toDTO(Comment comment) {
+        UserAccount user = comment.getUserAccount();
+        return CommentDetailsResponse.builder()
+                .commentId(comment.getCommentId())
+
+                .userId(user.getId())
+                .userNickname(user.getNickname())
+                .userProfileImage(user.getProfileImage())
+
+                .parentId(comment.getParentId())
+                .content(comment.getContent())
+                .isRemoved(comment.isRemoved())
+
+                .createdAt(comment.getCreatedDate())
+                .modifiedAt(comment.getModifiedDate())
+
+                .build();
+    }
+}
+```
+
+### CommentIdResponse
+```java
+package com.ncookie.imad.domain.posting.dto.response;
+
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+public class CommentIdResponse {
+    Long commentId;         // 댓글 ID
+}
+```
+
+## 좋아요 / 싫어요
+
+### LikeStatusRequest
+```java
+package com.ncookie.imad.domain.like.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -808,14 +1177,14 @@ import lombok.Data;
 
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class ReviewLikeStatusRequest {
+public class LikeStatusRequest {
     int likeStatus;
 }
 ```
 
-### BookmarksListResponse
+## 프로필
 
->/src/main/java/com/ncookie/imad/domain/profile/dto/BookmarkListResponse.java
+### BookmarksListResponse
 ```java
 package com.ncookie.imad.domain.profile.dto;
 
@@ -874,8 +1243,6 @@ public class BookmarkListResponse {
 ```
 
 ### BookmarkDetails
-
->/src/main/java/com/ncookie/imad/domain/profile/dto/BookmarkDetails.java
 ```java
 package com.ncookie.imad.domain.profile.dto;
 

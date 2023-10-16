@@ -11,6 +11,7 @@ import github_auth
 auth = github_auth.github_user_info
 
 # 마크다운 파일 경로 및 코드 블록 패턴
+original_file_path = './dto_class_original.md'
 markdown_file_path = './DTO-클래스-명세.md'
 
 
@@ -39,25 +40,18 @@ def main():
     new_markdown_content = ""
 
     # 마크다운 파일 열기
-    with open(markdown_file_path, "r", encoding="utf-8") as markdown_file:
+    with open(original_file_path, "r", encoding="utf-8") as original_file:
 
-        # 텍스트 읽어오기
-        markdown_content = markdown_file.read()
-
-        # 파일 경로와 코드 블럭을 정규표현식 사용하여 파싱
-        file_names = re.findall(r'### (.+)', markdown_content)
-        file_paths = re.findall(r'>/(.+)', markdown_content)
-        code_blocks = re.findall(r'```java\n(.+?)```', markdown_content, re.DOTALL)
-
-        # 파싱한 파일경로와 코드블럭의 갯수가 맞지 않으면 에러 발생
-        if len(file_paths) != len(code_blocks):
-            print("[ERROR] 파일 형식이 올바르지 않거나 파싱 도중 문제가 발생했습니다.")
-            sys.exit(1)
-
-        # 코드 블록을 대체할 코드로 변경
-        for index, old_code in enumerate(code_blocks):
-            new_code = get_file_content(file_paths[index])
-            new_markdown_content += f"### {file_names[index]}\n\n>/{file_paths[index]}\n```java\n{new_code}```\n\n"
+        lines = original_file.readlines()
+        for line in lines:
+            if line.startswith("### "):
+                new_markdown_content += line
+            elif line.startswith("## "):
+                new_markdown_content += line + "\n"
+            elif line.startswith(">/"):
+                new_markdown_content += "```java\n"
+                new_markdown_content += str(get_file_content(line[2:-1]))
+                new_markdown_content += "```\n\n"
 
     with open(markdown_file_path, "w", encoding="utf-8") as markdown_file:
         markdown_file.write(new_markdown_content)
