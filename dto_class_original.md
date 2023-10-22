@@ -103,13 +103,20 @@
 ### CommentDetailsResponse 
 >/src/main/java/com/ncookie/imad/domain/posting/dto/response/CommentDetailsResponse.java
 
+### CommentListResponse
+>/src/main/java/com/ncookie/imad/domain/posting/dto/response/CommentListResponse.java
+
 ### CommentIdResponse
 >/src/main/java/com/ncookie/imad/domain/posting/dto/response/CommentIdResponse.java
+
+---
 
 ## 좋아요 / 싫어요
 
 ### LikeStatusRequest
 >/src/main/java/com/ncookie/imad/domain/like/dto/LikeStatusRequest.java
+
+---
 
 ## 프로필
 

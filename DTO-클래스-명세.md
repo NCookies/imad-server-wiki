@@ -1,3 +1,4 @@
+---
 ## 회원가입 / 로그인
 
 ### Gender
@@ -225,6 +226,7 @@ public class UserInfoDuplicationResponse {
 }
 ```
 
+---
 ## 작품
 
 ### ContentsSearchResponse
@@ -556,6 +558,7 @@ public class DetailsPerson {
 }
 ```
 
+---
 ## 리뷰
 
 ### AddReviewRequest
@@ -761,6 +764,7 @@ public class ReviewListResponse {
 }
 ```
 
+---
 ## 게시글
 
 ### AddPostingRequest
@@ -821,7 +825,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 
 @Builder
@@ -860,10 +863,10 @@ public class PostingDetailsResponse {
 
     // 댓글 정보
     private int commentCnt;                                                     // 댓글 개수
-    private List<CommentDetailsResponse> commentDetailsResponseList;            // 댓글 리스트
+    private CommentListResponse commentListResponse;            // 댓글 리스트
 
 
-    public static PostingDetailsResponse toDTO(Posting posting, List<CommentDetailsResponse> commentList) {
+    public static PostingDetailsResponse toDTO(Posting posting, CommentListResponse commentList) {
         return PostingDetailsResponse.builder()
                 .postingId(posting.getPostingId())
 
@@ -888,8 +891,8 @@ public class PostingDetailsResponse {
                 .createdAt(posting.getCreatedDate())
                 .modifiedAt(posting.getModifiedDate())
 
-                .commentCnt(commentList.size())
-                .commentDetailsResponseList(commentList)
+                .commentCnt((int) commentList.getTotalElements())
+                .commentListResponse(commentList)
 
                 .build();
     }
@@ -1014,6 +1017,8 @@ public class PostingListElement {
     private boolean isSpoiler;              // 스포일러 여부
 
     private int viewCnt;                    // 조회수
+    private int commentCnt;                 // 댓글수
+    
     private int likeCnt;                    // 좋아요 수
     private int dislikeCnt;                 // 싫어요 수
 
@@ -1052,6 +1057,7 @@ public class PostingListElement {
 }
 ```
 
+---
 ## 댓글
 
 ### AddCommentRequest
@@ -1128,12 +1134,19 @@ public class CommentDetailsResponse {
      */
     private boolean isRemoved;
 
+    private int likeStatus;                 // 1이면 좋아요, -1이면 싫어요, 0이면 아무 상태도 아님
+
+    private int likeCnt;                    // 좋아요 수
+    private int dislikeCnt;                 // 싫어요 수
+
     private LocalDateTime createdAt;        // 댓글 작성 날짜
     private LocalDateTime modifiedAt;       // 댓글 수정 날짜
 
 
-    public static CommentDetailsResponse toDTO(Comment comment) {
+    public static CommentDetailsResponse toDTO(Comment comment, int likeStatus) {
         UserAccount user = comment.getUserAccount();
+        Long parentId = comment.getParent() != null ? comment.getParent().getCommentId() : null;
+
         return CommentDetailsResponse.builder()
                 .commentId(comment.getCommentId())
 
@@ -1141,12 +1154,77 @@ public class CommentDetailsResponse {
                 .userNickname(user.getNickname())
                 .userProfileImage(user.getProfileImage())
 
-                .parentId(comment.getParentId())
+                .parentId(parentId)
                 .content(comment.getContent())
                 .isRemoved(comment.isRemoved())
 
+                .likeStatus(likeStatus)
+                .likeCnt(comment.getLikeCnt())
+                .dislikeCnt(comment.getDislikeCnt())
+
                 .createdAt(comment.getCreatedDate())
                 .modifiedAt(comment.getModifiedDate())
+
+                .build();
+    }
+}
+```
+
+### CommentListResponse
+```java
+package com.ncookie.imad.domain.posting.dto.response;
+
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.Builder;
+import lombok.Data;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+
+import java.util.List;
+
+
+@Data
+@Builder
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+public class CommentListResponse {
+    List<CommentDetailsResponse> commentDetailsResponseList;
+
+    long totalElements;              // 총 리뷰 개수
+    long totalPages;                 // 총 페이지 수
+
+    int pageNumber;                 // 현재 페이지
+    int numberOfElements;           // 현재 페이지의 리뷰 개수
+    int sizeOfPage;                 // 한 페이지 당 최대 리뷰 개수
+
+    int sortDirection;              // 0 : 오름차순, 1 : 내림차순
+    String sortProperty;            // 정렬 기준 (createdDate, likeCnt, dislikeCnt 등이 있음)
+
+    int searchType;                 // 검색 기준 (제목+내용, 제목, 내용, 글쓴이 등)
+
+
+    public static CommentListResponse toDTO(Page<?> page, List<CommentDetailsResponse> commentList) {
+        String sortProperty = null;
+        int sortDirection = 0;
+        Sort sort = page.getSort();
+        List<Sort.Order> orders = sort.toList();
+        for (Sort.Order order : orders) {
+            sortProperty = order.getProperty();
+            sortDirection = order.getDirection().name().equals("ASC") ? 0 : 1;
+        }
+
+        return CommentListResponse.builder()
+                .commentDetailsResponseList(commentList)
+
+                .totalElements(page.getTotalElements())
+                .totalPages(page.getTotalPages())
+
+                .pageNumber(page.getNumber())
+                .numberOfElements(page.getNumberOfElements())
+                .sizeOfPage(page.getSize())
+
+                .sortDirection(sortDirection)
+                .sortProperty(sortProperty)
 
                 .build();
     }
@@ -1170,6 +1248,7 @@ public class CommentIdResponse {
 }
 ```
 
+---
 ## 좋아요 / 싫어요
 
 ### LikeStatusRequest
@@ -1187,6 +1266,7 @@ public class LikeStatusRequest {
 }
 ```
 
+---
 ## 프로필
 
 ### BookmarksListResponse

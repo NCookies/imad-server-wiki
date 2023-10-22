@@ -47,6 +47,7 @@ def main():
             if line.startswith("### "):
                 new_markdown_content += line
             elif line.startswith("## "):
+                new_markdown_content += "---" + "\n"
                 new_markdown_content += line + "\n"
             elif line.startswith(">/"):
                 new_markdown_content += "```java\n"
