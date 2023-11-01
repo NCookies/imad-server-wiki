@@ -864,8 +864,12 @@ public class PostingDetailsResponse {
     private LocalDateTime modifiedAt;       // 리뷰 수정 날짜
 
     // 댓글 정보
-    private int commentCnt;                                                     // 댓글 개수
+    private int commentCnt;                                     // 댓글 개수
     private CommentListResponse commentListResponse;            // 댓글 리스트
+
+    // 스크랩 정보
+    private Long scrapId;
+    private boolean scrapStatus;
 
 
     public static PostingDetailsResponse toDTO(Posting posting, CommentListResponse commentList) {
@@ -1027,6 +1031,10 @@ public class PostingListElement {
 
     private LocalDateTime createdAt;        // 리뷰 작성 날짜
     private LocalDateTime modifiedAt;       // 리뷰 수정 날짜
+
+    // 스크랩 정보
+    private Long scrapId;
+    private boolean scrapStatus;
 
 
     public static PostingListElement toDTO(Posting posting) {
@@ -1252,6 +1260,67 @@ public class CommentIdResponse {
 }
 ```
 
+### CommentListResponse
+```java
+package com.ncookie.imad.domain.posting.dto.response;
+
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.Builder;
+import lombok.Data;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+
+import java.util.List;
+
+
+@Data
+@Builder
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+public class CommentListResponse {
+    List<CommentDetailsResponse> commentDetailsResponseList;
+
+    long totalElements;              // 총 리뷰 개수
+    long totalPages;                 // 총 페이지 수
+
+    int pageNumber;                 // 현재 페이지
+    int numberOfElements;           // 현재 페이지의 리뷰 개수
+    int sizeOfPage;                 // 한 페이지 당 최대 리뷰 개수
+
+    int sortDirection;              // 0 : 오름차순, 1 : 내림차순
+    String sortProperty;            // 정렬 기준 (createdDate, likeCnt, dislikeCnt 등이 있음)
+
+    int searchType;                 // 검색 기준 (제목+내용, 제목, 내용, 글쓴이 등)
+
+
+    public static CommentListResponse toDTO(Page<?> page, List<CommentDetailsResponse> commentList) {
+        String sortProperty = null;
+        int sortDirection = 0;
+        Sort sort = page.getSort();
+        List<Sort.Order> orders = sort.toList();
+        for (Sort.Order order : orders) {
+            sortProperty = order.getProperty();
+            sortDirection = order.getDirection().name().equals("ASC") ? 0 : 1;
+        }
+
+        return CommentListResponse.builder()
+                .commentDetailsResponseList(commentList)
+
+                .totalElements(page.getTotalElements())
+                .totalPages(page.getTotalPages())
+
+                .pageNumber(page.getNumber())
+                .numberOfElements(page.getNumberOfElements())
+                .sizeOfPage(page.getSize())
+
+                .sortDirection(sortDirection)
+                .sortProperty(sortProperty)
+
+                .build();
+    }
+}
+```
+
 ---
 ## 좋아요 / 싫어요
 
@@ -1275,7 +1344,7 @@ public class LikeStatusRequest {
 
 ### BookmarksListResponse
 ```java
-package com.ncookie.imad.domain.profile.dto;
+package com.ncookie.imad.domain.profile.dto.response;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -1333,7 +1402,7 @@ public class BookmarkListResponse {
 
 ### BookmarkDetails
 ```java
-package com.ncookie.imad.domain.profile.dto;
+package com.ncookie.imad.domain.profile.dto.response;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -1367,6 +1436,103 @@ public class BookmarkDetails {
                 .contentsPosterPath(bookmark.getContents().getPosterPath())
 
                 .createdDate(bookmark.getCreatedDate())
+                .build();
+    }
+}
+```
+
+### ScrapDetails
+```java
+package com.ncookie.imad.domain.profile.dto.response;
+
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.ncookie.imad.domain.profile.entity.PostingScrap;
+import lombok.Builder;
+import lombok.Data;
+
+import java.time.LocalDateTime;
+
+@Data
+@Builder
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+public class ScrapDetails {
+    private Long scrapId;
+
+    private Long userId;
+
+    private Long postingId;                // 게시글 ID
+    private String postingTitle;           // 게시글 제목
+
+    private LocalDateTime createdDate;
+
+    public static ScrapDetails toDTO(PostingScrap scrap) {
+        return ScrapDetails.builder()
+                .scrapId(scrap.getId())
+                .userId(scrap.getUserAccount().getId())
+
+                .postingId(scrap.getPosting().getPostingId())
+                .postingTitle(scrap.getPosting().getTitle())
+
+                .createdDate(scrap.getCreatedDate())
+                .build();
+    }
+}
+```
+
+### ScrapListResponse
+```java
+package com.ncookie.imad.domain.profile.dto.response;
+
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.ncookie.imad.domain.profile.entity.PostingScrap;
+import lombok.Builder;
+import lombok.Data;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+
+import java.util.List;
+
+@Data
+@Builder
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+public class ScrapListResponse {
+    private List<ScrapDetails> scrapDetailsList;
+    
+    long totalElements;              // 총 스크랩 개수
+    long totalPages;                 // 총 페이지 수
+
+    int pageNumber;                 // 현재 페이지
+    int numberOfElements;           // 현재 페이지의 스크랩 개수
+    int sizeOfPage;                 // 한 페이지 당 최대 스크랩 개수
+
+    int sortDirection;              // 0 : 오름차순, 1 : 내림차순
+    String sortProperty;            // 정렬 기준 (createdDate)
+
+    public static ScrapListResponse toDTO(Page<PostingScrap> scrapPage, List<ScrapDetails> scrapDetailsList) {
+        String sortProperty = null;
+        int sortDirection = 0;
+        Sort sort = scrapPage.getSort();
+        List<Sort.Order> orders = sort.toList();
+        for (Sort.Order order : orders) {
+            sortProperty = order.getProperty();
+            sortDirection = order.getDirection().name().equals("ASC") ? 0 : 1;
+        }
+
+        return ScrapListResponse.builder()
+                .scrapDetailsList(scrapDetailsList)
+
+                .totalElements(scrapPage.getTotalElements())
+                .totalPages(scrapPage.getTotalPages())
+
+                .pageNumber(scrapPage.getNumber())
+                .numberOfElements(scrapPage.getNumberOfElements())
+                .sizeOfPage(scrapPage.getSize())
+
+                .sortDirection(sortDirection)
+                .sortProperty(sortProperty)
+
                 .build();
     }
 }

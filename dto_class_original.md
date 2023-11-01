@@ -109,6 +109,9 @@
 ### CommentIdResponse
 >/src/main/java/com/ncookie/imad/domain/posting/dto/response/CommentIdResponse.java
 
+### CommentListResponse
+>/src/main/java/com/ncookie/imad/domain/posting/dto/response/CommentListResponse.java
+
 ---
 
 ## 좋아요 / 싫어요
@@ -121,7 +124,13 @@
 ## 프로필
 
 ### BookmarksListResponse
->/src/main/java/com/ncookie/imad/domain/profile/dto/BookmarkListResponse.java
+>/src/main/java/com/ncookie/imad/domain/profile/dto/response/BookmarkListResponse.java
 
 ### BookmarkDetails
->/src/main/java/com/ncookie/imad/domain/profile/dto/BookmarkDetails.java
+>/src/main/java/com/ncookie/imad/domain/profile/dto/response/BookmarkDetails.java
+
+### ScrapDetails
+>/src/main/java/com/ncookie/imad/domain/profile/dto/response/ScrapDetails.java
+
+### ScrapListResponse
+>/src/main/java/com/ncookie/imad/domain/profile/dto/response/ScrapListResponse.java
