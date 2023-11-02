@@ -1,3 +1,8 @@
+## 일반
+
+### ListResponse
+>/src/main/java/com/ncookie/imad/domain/common/dto/ListResponse.java
+
 ## 회원가입 / 로그인
 
 ### Gender

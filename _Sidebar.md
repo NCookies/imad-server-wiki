@@ -41,6 +41,8 @@
     - [애플](./회원탈퇴#애플)
     - [구글](./회원탈퇴#구글)
 - [DTO 클래스 명세](./DTO-클래스-명세)
+  - [일반](./DTO-클래스-명세#일반)
+    - [ListResponse](./DTO-클래스-명세#ListResponse)
   - [회원가입 / 로그인](./DTO-클래스-명세#회원가입--로그인)
     - [Gender](./DTO-클래스-명세#Gender)
     - [AuthProvider](./DTO-클래스-명세#AuthProvider)
