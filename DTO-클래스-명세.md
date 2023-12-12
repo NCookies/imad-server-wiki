@@ -138,12 +138,11 @@ package com.ncookie.imad.domain.user.dto.request;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.ncookie.imad.domain.user.entity.AuthProvider;
-import com.ncookie.imad.domain.user.entity.Gender;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 public class SignUpRequest {
     private String email;
@@ -159,20 +158,22 @@ package com.ncookie.imad.domain.user.dto.request;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import com.ncookie.imad.domain.user.entity.Gender;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.Set;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+@AllArgsConstructor
 @Getter
 public class UserUpdateRequest {
-    Gender gender;
-    int ageRange;
-    int profileImage;
-    String nickname;
+    private Gender gender;
+    private int birthYear;
+    private int profileImage;
+    private String nickname;
 
-    Set<Long> preferredTvGenres;
-    Set<Long> preferredMovieGenres;
+    private Set<Long> preferredTvGenres;
+    private Set<Long> preferredMovieGenres;
 }
 ```
 
@@ -238,8 +239,8 @@ public class UserInfoResponse {
     private Gender gender;
     
     // 연령대
+    private int birthYear;
     private int ageRange;
-
     private int profileImage;
 
     // 유저의 추가정보 입력여부를 구분하기 위한 플래그 변수
@@ -255,6 +256,7 @@ public class UserInfoResponse {
                 .nickname(userAccount.getNickname())
                 .authProvider(userAccount.getAuthProvider())
                 .gender(userAccount.getGender())
+                .birthYear(userAccount.getBirthYear())
                 .ageRange(userAccount.getAgeRange())
                 .profileImage(userAccount.getProfileImage())
 
@@ -1152,6 +1154,7 @@ import java.time.LocalDateTime;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class CommentDetailsResponse {
     private Long commentId;
+    private Long postingId;
 
     // 유저 정보
     private Long userId;                    // 유저 ID
@@ -1184,6 +1187,7 @@ public class CommentDetailsResponse {
 
         return CommentDetailsResponse.builder()
                 .commentId(comment.getCommentId())
+                .postingId(comment.getPosting().getPostingId())
 
                 .userId(user.getId())
                 .userNickname(user.getNickname())
@@ -1401,7 +1405,9 @@ package com.ncookie.imad.domain.profile.dto.response;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.ncookie.imad.domain.contents.entity.Contents;
 import com.ncookie.imad.domain.profile.entity.PostingScrap;
+import com.ncookie.imad.domain.user.entity.UserAccount;
 import lombok.Builder;
 import lombok.Data;
 
@@ -1413,7 +1419,15 @@ import java.time.LocalDateTime;
 public class ScrapDetails {
     private Long scrapId;
 
-    private Long userId;
+    // 유저 정보
+    private Long userId;                    // 유저 id
+    private String userNickname;            // 닉네임
+    private int userProfileImage;           // 프로필 이미지
+
+    // 작품 정보
+    private Long contentsId;                // 작품 ID
+    private String contentsTitle;           // 작품 제목
+    private String contentsPosterPath;      // 작품 포스터 이미지 경로
 
     private Long postingId;                // 게시글 ID
     private String postingTitle;           // 게시글 제목
@@ -1421,9 +1435,19 @@ public class ScrapDetails {
     private LocalDateTime createdDate;
 
     public static ScrapDetails toDTO(PostingScrap scrap) {
+        UserAccount userAccount = scrap.getUserAccount();
+        Contents contents = scrap.getPosting().getContents();
+
         return ScrapDetails.builder()
                 .scrapId(scrap.getId())
-                .userId(scrap.getUserAccount().getId())
+
+                .userId(userAccount.getId())
+                .userNickname(userAccount.getNickname())
+                .userProfileImage(userAccount.getProfileImage())
+
+                .contentsId(contents.getContentsId())
+                .contentsTitle(contents.getTranslatedTitle())
+                .contentsPosterPath(contents.getPosterPath())
 
                 .postingId(scrap.getPosting().getPostingId())
                 .postingTitle(scrap.getPosting().getTitle())
