@@ -14,7 +14,6 @@ auth = github_auth.github_user_info
 original_file_path = './dto_class_original.md'
 markdown_file_path = './DTO-클래스-명세.md'
 
-
 # 파일 내용을 가져오는 함수
 def get_file_content(file_path):
     headers = {'Authorization': f'token {auth["access_token"]}'}
