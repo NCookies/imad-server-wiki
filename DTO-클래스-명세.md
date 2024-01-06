@@ -119,6 +119,7 @@ import lombok.Getter;
 // 작품 상세 페이지에서 보여주는 작품 종류의 ENUM 클래스
 @Getter
 public enum ContentsType {
+    ALL("ALL"),
     MOVIE("MOVIE"),
     TV("TV"),
     ANIMATION("ANIMATION");         // 장르에 "애니메이션"이 포함되어 있으면 TV, MOVIE가 아닌 ANIMATION으로 분류함
@@ -1490,6 +1491,113 @@ public class ScrapListResponse extends ListResponse<ScrapDetails> {
                 .sortDirection(sortVariable.getSortDirection())
                 .sortProperty(sortVariable.getSortProperty())
 
+                .build();
+    }
+}
+```
+
+### ProfileSummaryInfoResponse
+```java
+package com.ncookie.imad.domain.profile.dto.response;
+
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.*;
+
+
+@Builder
+@Getter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+public class ProfileSummaryInfoResponse {
+
+    // 유저 정보
+    private Long userId;                    // 유저 id
+    private String userNickname;            // 닉네임
+    private int userProfileImage;           // 프로필 이미지
+    
+    private int myReviewCnt;                // 내 리뷰 개수
+    private int myPostingCnt;               // 내 게시글 개수
+    private int myScrapCnt;                 // 내 스크랩 개수
+    
+    private BookmarkListResponse bookmarkListResponse;
+}
+```
+
+---
+## 랭킹
+
+### ContentsData
+```java
+package com.ncookie.imad.domain.ranking.dto;
+
+import com.ncookie.imad.domain.contents.entity.Contents;
+import com.ncookie.imad.domain.contents.entity.ContentsType;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+
+
+@Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class ContentsData implements Serializable {
+    private Long contentsId;                    // contents ID
+    private ContentsType contentsType;          // tv / movie / animation
+
+    private String title;                       // 제목
+    private String posterPath;                  // 포스터
+
+    // 어제자 데이터와의 랭킹 차이. 어제자 랭킹에 없는 작품인 경우 NULL값이 들어감
+    private Long rankChanged;
+    
+    // 현재 랭킹
+    private Long rank;
+
+    public static ContentsData from(Contents contents) {
+        return ContentsData.builder()
+                .contentsId(contents.getContentsId())
+                .contentsType(contents.getContentsType())
+
+                .title(contents.getTranslatedTitle())
+                .posterPath(contents.getPosterPath())
+
+                .rankChanged(null)
+                .rank(null)
+                .build();
+    }
+}
+```
+
+### RankingInfo
+```java
+package com.ncookie.imad.domain.ranking.dto.response;
+
+import com.ncookie.imad.domain.ranking.dto.ContentsData;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.Set;
+
+
+@Builder
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class RankingInfo {
+    Set<ContentsData> contentsDataSet;      // 랭킹 순으로 정렬되어 있는 랭킹 데이터
+
+    public static RankingInfo toDTO(Set<ContentsData> contentsDataSet) {
+        return RankingInfo.builder()
+                .contentsDataSet(contentsDataSet)
                 .build();
     }
 }

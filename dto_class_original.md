@@ -139,3 +139,16 @@
 
 ### ScrapListResponse
 >/src/main/java/com/ncookie/imad/domain/profile/dto/response/ScrapListResponse.java
+
+### ProfileSummaryInfoResponse
+>/src/main/java/com/ncookie/imad/domain/profile/dto/response/ProfileSummaryInfoResponse.java
+
+---
+
+## 랭킹
+
+### ContentsData
+>/src/main/java/com/ncookie/imad/domain/ranking/dto/ContentsData.java
+
+### RankingInfo
+>/src/main/java/com/ncookie/imad/domain/ranking/dto/response/RankingInfo.java

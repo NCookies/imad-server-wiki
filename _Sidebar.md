@@ -86,3 +86,7 @@
     - [BookmarkDetails](./DTO-클래스-명세#BookmarkDetails)
     - [ScrapDetails](./DTO-클래스-명세#ScrapDetails)
     - [ScrapListResponse](./DTO-클래스-명세#ScrapListResponse)
+    - [ProfileSummaryInfoResponse](./DTO-클래스-명세#ProfileSummaryInfoResponse)
+  - [랭킹](./DTO-클래스-명세#랭킹)
+    - [ContentsData](./DTO-클래스-명세#ContentsData)
+    - [RankingInfo](./DTO-클래스-명세#RankingInfo)
