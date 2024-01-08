@@ -733,6 +733,8 @@ public class ReviewDetailsResponse {
     private String content;                 // 본문
 
     private float score;                    // 리뷰 점수
+    
+    private boolean isAuthor;               // 본인 작성 여부
     private boolean isSpoiler;              // 스포일러 여부
 
     private int likeCnt;                    // 좋아요 수
@@ -896,6 +898,7 @@ public class PostingDetailsResponse {
     private String content;                 // 본문
     private int category;                   // 카테고리
 
+    private boolean isAuthor;               // 본인 작성 여부
     private boolean isSpoiler;              // 스포일러 여부
 
     private int viewCnt;                    // 조회수
@@ -1172,6 +1175,7 @@ public class CommentDetailsResponse {
      * Ex) "이 댓글은 삭제되었습니다."
      */
     private boolean isRemoved;
+    private boolean isAuthor;               // 본인 작성 여부
 
     private int likeStatus;                 // 1이면 좋아요, -1이면 싫어요, 0이면 아무 상태도 아님
 
@@ -1182,7 +1186,7 @@ public class CommentDetailsResponse {
     private LocalDateTime modifiedAt;       // 댓글 수정 날짜
 
 
-    public static CommentDetailsResponse toDTO(Comment comment, int likeStatus, int childCnt) {
+    public static CommentDetailsResponse toDTO(Comment comment) {
         UserAccount user = comment.getUserAccount();
         Long parentId = comment.getParent() != null ? comment.getParent().getCommentId() : null;
 
@@ -1195,12 +1199,10 @@ public class CommentDetailsResponse {
                 .userProfileImage(user.getProfileImage())
 
                 .parentId(parentId)
-                .childCnt(childCnt)
 
                 .content(comment.getContent())
                 .isRemoved(comment.isRemoved())
 
-                .likeStatus(likeStatus)
                 .likeCnt(comment.getLikeCnt())
                 .dislikeCnt(comment.getDislikeCnt())
 
