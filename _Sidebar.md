@@ -89,5 +89,7 @@
     - [ScrapListResponse](./DTO-클래스-명세#ScrapListResponse)
     - [ProfileSummaryInfoResponse](./DTO-클래스-명세#ProfileSummaryInfoResponse)
   - [랭킹](./DTO-클래스-명세#랭킹)
+    - [RankingDetailsResponse](./DTO-클래스-명세#RankingDetailsResponse)
+    - [RankingListResponse](./DTO-클래스-명세#RankingListResponse)
     - [ContentsData](./DTO-클래스-명세#ContentsData)
-    - [RankingInfo](./DTO-클래스-명세#RankingInfo)
+    - [RankingScoreDTO](./DTO-클래스-명세#RankingScoreDTO)

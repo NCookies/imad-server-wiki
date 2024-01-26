@@ -147,8 +147,14 @@
 
 ## 랭킹
 
+### RankingDetailsResponse
+>/src/main/java/com/ncookie/imad/domain/ranking/dto/response/RankingDetailsResponse.java
+
+### RankingListResponse
+>/src/main/java/com/ncookie/imad/domain/ranking/dto/response/RankingListResponse.java
+
 ### ContentsData
 >/src/main/java/com/ncookie/imad/domain/ranking/dto/ContentsData.java
 
-### RankingInfo
->/src/main/java/com/ncookie/imad/domain/ranking/dto/response/RankingInfo.java
+### RankingScoreDTO
+>/src/main/java/com/ncookie/imad/domain/ranking/dto/RankingScoreDTO.java
