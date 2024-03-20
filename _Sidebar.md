@@ -55,6 +55,7 @@
     - [UserInfoDuplicationRequest](./DTO-클래스-명세#UserInfoDuplicationRequest)
     - [UserInfoResponse](./DTO-클래스-명세#UserInfoResponse)
     - [UserInfoDuplicationResponse](./DTO-클래스-명세#UserInfoDuplicationResponse)
+    - [AppleLoginResponse](./DTO-클래스-명세.md#AppleLoginResponse)
   - [작품](./DTO-클래스-명세#작품)
     - [ContentsSearchResponse](./DTO-클래스-명세#ContentsSearchResponse)
     - [ContentsSearchDetails](./DTO-클래스-명세#ContentsSearchDetails)

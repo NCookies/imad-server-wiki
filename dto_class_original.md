@@ -32,6 +32,9 @@
 ### UserInfoDuplicationResponse
 >/src/main/java/com/ncookie/imad/domain/user/dto/response/UserInfoDuplicationResponse.java
 
+### AppleLoginResponse
+>/src/main/java/com/ncookie/imad/global/oauth2/dto/AppleLoginResponse.java
+
 ---
 
 ## 작품
